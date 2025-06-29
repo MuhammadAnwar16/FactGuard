@@ -1,22 +1,23 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { User, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { User, ChevronLeft, ChevronRight, Search, LogOut  } from "lucide-react";
 
-const Sidebar = ({ isOpen, toggle }) => {
-
-  // Load state from localStorage on mount
-  
-
-  
+const Sidebar = ({ isOpen, toggle, onLogout }) => {
+  const [showLogout, setShowLogout] = useState(false);
 
   return (
     <>
-      {/* Mobile Overlay Background */}
+            {/* Mobile Background */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
-          onClick={toggle}
+          onClick={() => {
+            toggle();
+            setShowLogout(false);
+          }}
         />
       )}
+
 
       {/* Sidebar */}
       <aside
@@ -93,8 +94,37 @@ const Sidebar = ({ isOpen, toggle }) => {
           </button>
         </div>
 
-        {/* User Info */}
-        <div className="px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
+         {/* User Info – Mobile */}
+        <div className="lg:hidden px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
+          <button
+            onClick={() => setShowLogout(!showLogout)}
+            className="w-full flex items-center gap-3 focus:outline-none"
+          >
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 text-white">
+              <User size={16} />
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="text-white font-medium">Anwar</span>
+              <span className="text-xs text-gray-400">anwar@example.com</span>
+            </div>
+          </button>
+
+           {/* Logout dropdown */}
+          {showLogout && (
+            <div className="mt-3 animate-fade-in-down">
+              <button
+                onClick={onLogout}
+                className="flex items-center gap-2 px-4 py-2 w-full rounded-md bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm shadow hover:opacity-90 transition"
+              >
+                <LogOut size={16} />
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Static User Info (no dropdown) */}
+        <div className="hidden lg:flex px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
           <div className="flex items-center gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-700 text-white">
               <User size={16} />
