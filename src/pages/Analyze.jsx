@@ -120,7 +120,7 @@ const Analyze = () => {
         </div>
 
         {/* Mobile Header (<lg screens) */}
-        <div className="lg:hidden sticky top-0 z-50 flex justify-between items-center px-4 py-2 bg-background border-b border-border shadow-md">
+        <div className="lg:hidden fixed top-0 z-50 flex justify-between items-center px-4 py-2 bg-background border-b border-border shadow-md">
           {/* Sidebar Toggle */}
           <button
             onClick={toggleSidebar}
