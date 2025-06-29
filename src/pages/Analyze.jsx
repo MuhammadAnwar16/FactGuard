@@ -149,7 +149,8 @@ const Analyze = () => {
           </button>
         </div>
 
-        <main className="flex-1 flex flex-col w-full max-w-7xl mx-auto relative px-4 sm:px-6 py-6 pb-28 lg:pb-10">
+        <main className="flex-1 flex flex-col justify-start px-4 sm:px-6 pt-6 pb-28 w-full max-w-7xl mx-auto overflow-y-auto">
+
   {/* Heading */}
   <div className="text-center mb-4 lg:mb-6">
     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-space text-white">
