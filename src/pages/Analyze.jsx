@@ -95,8 +95,6 @@ const Analyze = () => {
     };
   }, [sidebarOpen]);
 
-  
-
   return (
     <section className="h-screen w-full bg-background text-text flex">
       {/* Sidebar Drawer */}
@@ -149,118 +147,218 @@ const Analyze = () => {
           </button>
         </div>
 
-        <main className="flex-1 flex flex-col justify-start px-4 sm:px-6 pt-6 pb-28 w-full max-w-7xl mx-auto overflow-y-auto">
+        <>
+          {/* ✅ MOBILE VERSION */}
+          <main className="lg:hidden flex flex-col justify-start px-4 sm:px-6 pt-6 pb-28 w-full max-w-7xl mx-auto overflow-y-auto">
+            {/* Heading */}
+            <div className="text-center mb-4">
+              <h2 className="text-2xl font-bold font-space text-white">
+                Analyze News or URL
+              </h2>
+              <p className="text-muted mt-2 text-base max-w-md mx-auto font-inter">
+                Paste a headline or upload a file — let FactGuard’s AI uncover
+                the truth.
+              </p>
+            </div>
 
-  {/* Heading */}
-  <div className="text-center mb-4 lg:mb-6">
-    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-space text-white">
-      Analyze News or URL
-    </h2>
-    <p className="text-muted mt-2 text-base sm:text-lg max-w-md mx-auto font-inter">
-      Paste a headline or upload a file — let FactGuard’s AI uncover the truth.
-    </p>
-  </div>
+            {/* Suggestions */}
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              {exampleHeadlines.map((headline, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleExampleClick(headline)}
+                  className="bg-white/10 hover:bg-primary/10 border border-border text-muted hover:text-primary transition-all duration-300 px-3 py-2 rounded-full text-sm shadow-sm backdrop-blur-md whitespace-nowrap"
+                >
+                  <Lightbulb size={14} className="inline-block mr-2" />
+                  {headline}
+                </button>
+              ))}
+            </div>
 
-  {/* Suggestions */}
-  <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6">
-    {exampleHeadlines.map((headline, index) => (
-      <button
-        key={index}
-        onClick={() => handleExampleClick(headline)}
-        className="bg-white/10 hover:bg-primary/10 border border-border text-muted hover:text-primary transition-all duration-300 px-3 py-2 rounded-full text-sm shadow-sm backdrop-blur-md whitespace-nowrap"
-      >
-        <Lightbulb size={14} className="inline-block mr-2" />
-        {headline}
-      </button>
-    ))}
-  </div>
+            {/* Error */}
+            {error && (
+              <div className="text-danger text-sm mt-2 mb-4 flex items-center gap-2 font-inter justify-center">
+                <AlertCircle size={18} /> {error}
+              </div>
+            )}
 
-  {/* Error */}
-  {error && (
-    <div className="text-danger text-sm mt-2 mb-4 flex items-center gap-2 font-inter justify-center">
-      <AlertCircle size={18} /> {error}
-    </div>
-  )}
+            {/* Result */}
+            {result && (
+              <div className="mb-4 bg-surface border border-border rounded-2xl p-5 shadow-lg max-w-xl w-full mx-auto text-left relative">
+                <h3 className="text-xl font-semibold text-primary mb-2 font-space">
+                  {result.verdict}
+                </h3>
+                <p className="mb-1 font-inter">
+                  Credibility Score:{" "}
+                  <span className="font-bold text-text">{result.score}%</span>
+                </p>
+                <p className="text-muted text-sm font-inter">
+                  {result.explanation}
+                </p>
 
-  {/* Result (Above Input on Mobile) */}
-  {result && (
-    <div className="mb-4 bg-surface border border-border rounded-2xl p-5 shadow-lg max-w-xl w-full mx-auto text-left relative">
-      <h3 className="text-xl sm:text-2xl font-semibold text-primary mb-2 font-space">
-        {result.verdict}
-      </h3>
-      <p className="mb-1 font-inter">
-        Credibility Score:{" "}
-        <span className="font-bold text-text">{result.score}%</span>
-      </p>
-      <p className="text-muted text-sm font-inter">
-        {result.explanation}
-      </p>
+                <div className="absolute -top-2 -right-2 h-3 w-3 rounded-full bg-gradient-to-tr from-red-400 to-orange-500 animate-ping opacity-70" />
+                <div
+                  className={`absolute top-4 right-4 px-3 py-1 text-xs font-semibold rounded-full shadow-md ${
+                    result.score >= 70
+                      ? "bg-gradient-to-r from-green-500 to-teal-500 text-white"
+                      : "bg-gradient-to-r from-red-500 to-orange-500 text-white"
+                  }`}
+                >
+                  {result.score >= 70 ? "Real" : "Fake"}
+                </div>
+              </div>
+            )}
 
-      {/* Signal Ping + Badge */}
-      <div className="absolute -top-2 -right-2 h-3 w-3 rounded-full bg-gradient-to-tr from-red-400 to-orange-500 animate-ping opacity-70" />
-      <div
-        className={`absolute top-4 right-4 px-3 py-1 text-xs font-semibold rounded-full shadow-md ${
-          result.score >= 70
-            ? "bg-gradient-to-r from-green-500 to-teal-500 text-white"
-            : "bg-gradient-to-r from-red-500 to-orange-500 text-white"
-        }`}
-      >
-        {result.score >= 70 ? "Real" : "Fake"}
-      </div>
-    </div>
-  )}
+            {/* Input Bar (Fixed Bottom) */}
+            <form
+              onSubmit={handleAnalyze}
+              className="fixed bottom-4 left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary"
+            >
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <Upload
+                  size={20}
+                  className="text-muted hover:text-white transition"
+                  title="Upload File"
+                />
+              </label>
+              <input
+                id="file-upload"
+                type="file"
+                accept=".pdf,.txt,.doc,.docx"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
 
-  {/* Fixed Input Bar (ChatGPT-like, Mobile Only) */}
-<form
-  onSubmit={handleAnalyze}
-  className="fixed bottom-4 left-4 right-4 mx-auto w-[calc(100%-2rem)] sm:w-[90%] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary lg:static lg:mt-10"
->
-  {/* Upload Icon (Left) */}
-  <label htmlFor="file-upload" className="cursor-pointer">
-    <Upload
-      size={20}
-      className="text-muted hover:text-white transition"
-      title="Upload File"
-    />
-  </label>
-  <input
-    id="file-upload"
-    type="file"
-    accept=".pdf,.txt,.doc,.docx"
-    onChange={handleFileUpload}
-    className="hidden"
-  />
+              <textarea
+                rows={1}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter headline or URL..."
+                className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
+                onInput={(e) => {
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${e.target.scrollHeight}px`;
+                }}
+              />
 
-  {/* Expanding Textarea Input */}
-  <textarea
-    rows={1}
-    value={input}
-    onChange={(e) => setInput(e.target.value)}
-    placeholder="Enter headline or URL..."
-    className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
-    onInput={(e) => {
-      e.target.style.height = 'auto';
-      e.target.style.height = `${e.target.scrollHeight}px`;
-    }}
-  />
+              <button
+                type="submit"
+                disabled={loading || uploading}
+                className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
+              >
+                {loading ? (
+                  <Loader2 className="animate-spin" size={18} />
+                ) : (
+                  <ArrowUp size={18} />
+                )}
+              </button>
+            </form>
+          </main>
 
-  {/* Circular Send Button */}
-  <button
-    type="submit"
-    disabled={loading || uploading}
-    className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
-  >
-    {loading ? (
-      <Loader2 className="animate-spin" size={18} />
-    ) : (
-      <ArrowUp size={18} />
-    )}
-  </button>
-</form>
+          {/* ✅ DESKTOP VERSION */}
+          <main className="hidden lg:flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 py-10 w-full max-w-7xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 font-space text-white">
+              Analyze News or URL
+            </h2>
+            <p className="text-muted mb-6 text-lg max-w-xl font-inter">
+              Paste a headline or URL and let FactGuard’s AI uncover the truth.
+            </p>
 
-</main>
+            {/* Suggestions */}
+            <div className="flex flex-wrap justify-center gap-3 mb-6">
+              {exampleHeadlines.map((headline, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleExampleClick(headline)}
+                  className="bg-white/10 hover:bg-primary/10 border border-border text-muted hover:text-primary transition-all duration-300 px-4 py-2 rounded-full text-sm shadow-sm backdrop-blur-md"
+                >
+                  <Lightbulb size={14} className="inline-block mr-2" />
+                  {headline}
+                </button>
+              ))}
+            </div>
 
+            {/* Form */}
+            <form
+              onSubmit={handleAnalyze}
+              className="w-full max-w-2xl flex items-center gap-2 bg-surface border border-border rounded-full shadow-lg px-4 py-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary relative"
+            >
+              <div className="flex flex-col items-center gap-2 pr-2 border-r border-border">
+                <label
+                  htmlFor="file-upload-desktop"
+                  className="cursor-pointer group"
+                >
+                  <Upload
+                    size={16}
+                    className="text-muted group-hover:text-white transition duration-150"
+                    title="Upload File"
+                  />
+                </label>
+                <input
+                  id="file-upload-desktop"
+                  type="file"
+                  accept=".pdf,.txt,.doc,.docx"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </div>
 
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter headline or URL..."
+                className="w-full bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter pl-2"
+              />
+
+              <button
+                type="submit"
+                disabled={loading || uploading}
+                className="bg-gradient-to-r from-primary to-secondary text-black font-semibold px-5 py-2 rounded-full shadow hover:scale-105 transition text-sm flex items-center gap-2"
+              >
+                {loading ? (
+                  <Loader2 className="animate-spin" size={18} />
+                ) : (
+                  "Analyze"
+                )}
+              </button>
+            </form>
+
+            {/* Error */}
+            {error && (
+              <div className="text-danger text-sm mt-4 flex items-center gap-2 font-inter">
+                <AlertCircle size={18} /> {error}
+              </div>
+            )}
+
+            {/* Result */}
+            {result && (
+              <div className="mt-10 bg-surface border border-border rounded-2xl p-6 shadow-lg max-w-xl w-full text-left relative">
+                <h3 className="text-2xl font-semibold text-primary mb-2 font-space">
+                  {result.verdict}
+                </h3>
+                <p className="mb-1 font-inter">
+                  Credibility Score:{" "}
+                  <span className="font-bold text-text">{result.score}%</span>
+                </p>
+                <p className="text-muted text-sm font-inter">
+                  {result.explanation}
+                </p>
+
+                <div className="absolute -top-2 -right-2 h-3 w-3 rounded-full bg-gradient-to-tr from-red-400 to-orange-500 animate-ping opacity-70" />
+                <div
+                  className={`absolute top-4 right-4 px-3 py-1 text-xs font-semibold rounded-full shadow-md ${
+                    result.score >= 70
+                      ? "bg-gradient-to-r from-green-500 to-teal-500 text-white"
+                      : "bg-gradient-to-r from-red-500 to-orange-500 text-white"
+                  }`}
+                >
+                  {result.score >= 70 ? "Real" : "Fake"}
+                </div>
+              </div>
+            )}
+          </main>
+        </>
       </div>
     </section>
   );
