@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { User, ChevronLeft, ChevronRight, Search } from "lucide-react";
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+const Sidebar = ({ isOpen, toggle }) => {
 
   // Load state from localStorage on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("sidebarOpen");
-    if (saved !== null) {
-      setIsOpen(saved === "true");
-    }
-  }, []);
+  
 
-  // Save state to localStorage when toggled
-  const toggle = () => {
-    const newState = !isOpen;
-    setIsOpen(newState);
-    localStorage.setItem("sidebarOpen", newState.toString());
-  };
+  
 
   return (
     <>

@@ -94,6 +94,8 @@ const Analyze = () => {
     };
   }, [sidebarOpen]);
 
+  
+
   return (
     <section className="h-screen w-full bg-background text-text flex">
       {/* Sidebar Drawer */}
