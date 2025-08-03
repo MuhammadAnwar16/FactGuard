@@ -86,15 +86,11 @@ const Analyze = () => {
 
   // Disable background scroll when sidebar is open (mobile)
   useEffect(() => {
-    if (sidebarOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [sidebarOpen]);
+     document.body.style.overflow = "hidden";
+  return () => {
+    document.body.style.overflow = "";
+  };
+}, []);
   const startNewAnalysis = () => {
     setInput("");
     setResult(null);
