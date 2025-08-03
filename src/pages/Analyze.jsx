@@ -1,6 +1,6 @@
 import Sidebar from "../components/Sidebar";
-import React, { useState, useEffect } from "react";
 import AccountMenu from "../components/AccountMenu";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Search,
   Loader2,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 const Analyze = () => {
+  const fileInputRef = useRef(null);
   const [input, setInput] = useState("");
   const [, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -94,6 +95,12 @@ const Analyze = () => {
       document.body.style.overflow = "";
     };
   }, [sidebarOpen]);
+  const startNewAnalysis = () => {
+    setInput("");
+    setResult(null);
+    setError(null);
+    setUploading(false);
+  };
 
   return (
     <section className="h-screen w-full bg-background text-text flex">
@@ -118,7 +125,7 @@ const Analyze = () => {
         </div>
 
         {/* Mobile Header (<lg screens) */}
-        <div className="lg:hidden sticky top-0 z-50 flex justify-between items-center px-4 py-2 bg-background border-b border-border shadow-md">
+        <div className="lg:hidden sticky top-0 z-50 flex justify-between items-center px-4 py-2 bg-background  shadow-md">
           {/* Sidebar Toggle */}
           <button
             onClick={toggleSidebar}
@@ -127,10 +134,10 @@ const Analyze = () => {
           >
             <Menu size={22} />
           </button>
-
+          <h1 className="text-sm font-semibold text-muted">FactGuard</h1>
           {/* New Chat Button */}
           <button
-            onClick={() => setInput("")}
+            onClick={startNewAnalysis}
             className="text-sm px-4 py-2 rounded-full bg-gradient-to-r  text-gray-400 hover:text-teal-400 transition lg:absolute lg:right-4"
           >
             <svg
@@ -148,7 +155,7 @@ const Analyze = () => {
         </div>
 
         <>
-          {/* ✅ MOBILE VERSION */}
+          {/* ✅ MOBILE VERSION (ChatGPT-inspired layout) */}
           <main className="lg:hidden flex flex-col justify-start px-4 sm:px-6 pt-6 pb-28 w-full max-w-7xl mx-auto overflow-y-auto">
             {/* Heading */}
             <div className="text-center mb-4">
@@ -209,50 +216,52 @@ const Analyze = () => {
               </div>
             )}
 
-            {/* Input Bar (Fixed Bottom) */}
             <form
-              onSubmit={handleAnalyze}
-              className="fixed bottom-4 left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary"
-            >
-              <label htmlFor="file-upload" className="cursor-pointer">
-                <Upload
-                  size={20}
-                  className="text-muted hover:text-white transition"
-                  title="Upload File"
-                />
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                accept=".pdf,.txt,.doc,.docx"
-                onChange={handleFileUpload}
-                className="hidden"
-              />
+  onSubmit={handleAnalyze}
+  className="fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-50"
+>
+  <label htmlFor="file-upload" className="cursor-pointer">
+    <Upload
+      size={20}
+      className="text-muted hover:text-white transition"
+      title="Upload File"
+    />
+  </label>
 
-              <textarea
-                rows={1}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Enter headline or URL..."
-                className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
-                onInput={(e) => {
-                  e.target.style.height = "auto";
-                  e.target.style.height = `${e.target.scrollHeight}px`;
-                }}
-              />
+  <input
+    id="file-upload"
+    ref={fileInputRef}
+    type="file"
+    accept=".pdf,.txt,.doc,.docx"
+    onChange={handleFileUpload}
+    className="hidden"
+  />
 
-              <button
-                type="submit"
-                disabled={loading || uploading}
-                className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
-              >
-                {loading ? (
-                  <Loader2 className="animate-spin" size={18} />
-                ) : (
-                  <ArrowUp size={18} />
-                )}
-              </button>
-            </form>
+  <textarea
+    rows={1}
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    placeholder="Enter headline or URL..."
+    className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
+    onInput={(e) => {
+      e.target.style.height = "auto";
+      e.target.style.height = `${e.target.scrollHeight}px`;
+    }}
+  />
+
+  <button
+    type="submit"
+    disabled={loading || uploading}
+    className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
+  >
+    {loading ? (
+      <Loader2 className="animate-spin" size={18} />
+    ) : (
+      <ArrowUp size={18} />
+    )}
+  </button>
+</form>
+
           </main>
 
           {/* ✅ DESKTOP VERSION */}
