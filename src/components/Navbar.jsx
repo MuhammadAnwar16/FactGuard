@@ -65,13 +65,15 @@ const Navbar = () => {
             <Link
               key={link.name}
               to={link.path}
-              className={`transition duration-300 ${
-                location.pathname === link.path
-                  ? "text-[#00F0B5] underline underline-offset-4"
-                  : scrolled
-                  ? "text-white hover:text-[#00F0B5]"
-                  : "text-white/80 hover:text-white"
-              }`}
+              className={`transition-colors duration-300 p-2 rounded-md motion-reduce:transition-none 
+        hover:bg-[#1A1A1A]/30 dark:hover:bg-[#EDEDED]/10
+        ${
+          location.pathname === link.path
+            ? "text-[#00F0B5] underline underline-offset-4"
+            : scrolled
+            ? "text-white hover:text-[#00F0B5]"
+            : "text-white/80 hover:text-white"
+        }`}
             >
               {link.name}
             </Link>
