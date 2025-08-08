@@ -39,7 +39,7 @@ const Navbar = () => {
   return (
     <header className="sticky top-4 z-50 px-4 sm:px-6 lg:px-8">
       <div
-        className={`relative flex h-[64px] items-center justify-between rounded-2xl border px-4 lg:px-6 backdrop-blur-md transition-all duration-500
+        className={`relative flex h-[52px] sm:h-[64px]  items-center justify-between rounded-2xl border px-4 lg:px-6 backdrop-blur-md transition-all duration-500
         ${
           scrolled
             ? "bg-background border-[#3b3b3b] shadow-[0_8px_40px_rgba(0,255,255,0.06)]"
