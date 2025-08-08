@@ -1,17 +1,10 @@
 import { Link } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect, useState } from "react";
 import { Github, Twitter, Linkedin, ArrowUp } from "lucide-react";
 
 const Footer = () => {
-  const [showTopBtn, setShowTopBtn] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setShowTopBtn(window.scrollY > 300);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  // Removed unused showTopBtn state and related logic
 
   return (
     <footer className="relative bg-background text-muted pt-20 pb-10 px-6 ">
@@ -120,16 +113,7 @@ const Footer = () => {
         &copy; {new Date().getFullYear()} FactGuard. All rights reserved.
       </div>
 
-      {/* Scroll to top button */}
-      {showTopBtn && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-6 bg-primary text-black p-3 rounded-full shadow-lg hover:scale-105 transition"
-          aria-label="Scroll to top"
-        >
-          <ArrowUp size={18} />
-        </button>
-      )}
+      
     </footer>
   );
 };
