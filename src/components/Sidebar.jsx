@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { User, ChevronLeft, ChevronRight, Search, LogOut } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
-const Sidebar = ({ isOpen, toggle, onLogout, onNewChat }) => {
+const Sidebar = ({ isOpen, toggle, onNewChat }) => {
+  const { logout } = useAuth(); 
   const [showLogout, setShowLogout] = useState(false);
   return (
     <>
@@ -115,8 +117,8 @@ const Sidebar = ({ isOpen, toggle, onLogout, onNewChat }) => {
             <div className="mt-3 animate-fade-in-down">
               <button
                 onClick={() => {
-                  if (onLogout) onLogout();
-                  if (isOpen) toggle(); // close drawer after logout on mobile
+                  logout();
+                  toggle(); // auto-close sidebar on mobile
                 }}
                 className="flex items-center gap-2 px-4 py-2 w-full rounded-md bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm shadow hover:opacity-90 transition"
               >
