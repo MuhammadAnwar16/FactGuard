@@ -396,6 +396,31 @@ const LoginPage = () => {
                 {isLogin ? "Sign Up" : "Sign In"}
               </button>
             </p>
+            <p className="text-center text-xs text-white/40 mt-4 px-2 sm:px-0">
+              {isLogin ? (
+                <>
+                  <a href="/terms" className="underline hover:text-white/60">
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a href="/privacy" className="underline hover:text-white/60">
+                    Privacy Policy
+                  </a>
+                </>
+              ) : (
+                <>
+                  By creating an account, you agree to the{" "}
+                  <a href="/terms" className="underline hover:text-white/60">
+                    Terms of Service
+                  </a>{" "}
+                  and{" "}
+                  <a href="/privacy" className="underline hover:text-white/60">
+                    Privacy Policy
+                  </a>
+                  .
+                </>
+              )}
+            </p>
           </div>
         </div>
       </div>
