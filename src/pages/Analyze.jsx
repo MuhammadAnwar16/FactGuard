@@ -22,27 +22,6 @@ const Analyze = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen((prev) => !prev);
-  const [keyboardOffset, setKeyboardOffset] = useState("calc(env(safe-area-inset-bottom, 1rem) + 0.5rem)");
-
-useEffect(() => {
-  if (window.visualViewport) {
-    const handleResize = () => {
-      const viewport = window.visualViewport;
-      if (viewport.height < window.innerHeight) {
-        // Keyboard is open → move input above keyboard
-        setKeyboardOffset(`${window.innerHeight - viewport.height + 10}px`);
-      } else {
-        // Keyboard closed → reset
-        setKeyboardOffset("calc(env(safe-area-inset-bottom, 1rem) + 0.5rem)");
-      }
-    };
-    window.visualViewport.addEventListener("resize", handleResize);
-    return () => {
-      window.visualViewport.removeEventListener("resize", handleResize);
-    };
-  }
-}, []);
-
 
   const exampleHeadlines = [
     "COVID-19 vaccines cause infertility, says study",
@@ -238,14 +217,11 @@ useEffect(() => {
             )}
 
             <form
-  onSubmit={handleAnalyze}
-  className={`absolute left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-50
+              onSubmit={handleAnalyze}
+              className={`fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-40
     ${sidebarOpen ? "hidden" : "flex"}
   `}
-  style={{
-    bottom: input ? keyboardOffset : "calc(env(safe-area-inset-bottom, 1rem) + 0.5rem)",
-  }}
->
+            >
               <label htmlFor="file-upload" className="cursor-pointer">
                 <Upload
                   size={20}
