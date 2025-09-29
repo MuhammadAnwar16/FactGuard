@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (username, password) => {
     // Replace with real API call later
-    if (username === "admin" && password === "1234") {
+    if (username === "admin" && password === "123456") {
       setUser({ username });
       return true;
     }
