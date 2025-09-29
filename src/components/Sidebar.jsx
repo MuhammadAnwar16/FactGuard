@@ -118,7 +118,7 @@ const Sidebar = ({ isOpen, toggle, onNewChat }) => {
               <button
                 onClick={() => {
                   logout();
-                  toggle(); // auto-close sidebar on mobile
+                  toggle(); 
                 }}
                 className="flex items-center gap-2 px-4 py-2 w-full rounded-md bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm shadow hover:opacity-90 transition"
               >
