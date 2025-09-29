@@ -87,18 +87,24 @@ const LoginPage = () => {
     }
   };
 
-  const getBorderClass = (field) => {
-    if (!touched[field]) return "border-[#2c2c2c]";
-    if (errors[field]) return "border-red-500";
-    return "border-green-500";
-  };
+  const getBorderClass = (field, value) => {
+  if (!touched[field]) return "border-[#2c2c2c]";
+  if (errors[field]) return "border-red-500";
+  // ✅ only green if value is non-empty
+  if (value && value.trim() !== "") return "border-green-500";
+  return "border-[#2c2c2c]";
+};
 
-  const getRightIcon = (field) => {
-    if (!touched[field]) return null;
-    if (errors[field])
-      return <XCircle size={16} className="text-red-500 absolute right-3" />;
+const getRightIcon = (field, value) => {
+  if (!touched[field]) return null;
+  if (errors[field])
+    return <XCircle size={16} className="text-red-500 absolute right-3" />;
+  // ✅ only show green icon if value is non-empty
+  if (value && value.trim() !== "")
     return <CheckCircle size={16} className="text-green-500 absolute right-3" />;
-  };
+  return null;
+};
+
 
   const { label: passStrengthLabel, color: passStrengthColor } = getPasswordStrength();
 
@@ -184,7 +190,7 @@ const LoginPage = () => {
                         placeholder="John Doe"
                         className="bg-transparent flex-1 py-2 text-sm focus:outline-none"
                       />
-                      {getRightIcon("name")}
+                      {getRightIcon("name", name)}
                     </div>
                     {errors.name && (
                       <p className="text-red-500 text-xs mt-1">{errors.name}</p>
@@ -208,7 +214,7 @@ const LoginPage = () => {
                         placeholder="you@example.com"
                         className="bg-transparent flex-1 py-2 text-sm focus:outline-none"
                       />
-                      {getRightIcon("email")}
+                      {getRightIcon("email", email)}
                     </div>
                     {errors.email && (
                       <p className="text-red-500 text-xs mt-1">{errors.email}</p>
@@ -234,7 +240,7 @@ const LoginPage = () => {
                     placeholder="username123"
                     className="bg-transparent flex-1 py-2 text-sm focus:outline-none"
                   />
-                  {getRightIcon("username")}
+                  {getRightIcon("username", username)}
                 </div>
                 {errors.username && (
                   <p className="text-red-500 text-xs mt-1">{errors.username}</p>
@@ -265,7 +271,7 @@ const LoginPage = () => {
                   >
                     {showPass ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
-                  {getRightIcon("password")}
+                  {getRightIcon("password", password)}
                 </div>
                 {errors.password && (
                   <p className="text-red-500 text-xs mt-1">{errors.password}</p>
@@ -315,7 +321,7 @@ const LoginPage = () => {
                       placeholder="Repeat password"
                       className="bg-transparent flex-1 py-2 text-sm focus:outline-none"
                     />
-                    {getRightIcon("confirmPassword")}
+                    {getRightIcon("confirmPassword", confirmPassword)}
                   </div>
                   {errors.confirmPassword && (
                     <p className="text-red-500 text-xs mt-1">
