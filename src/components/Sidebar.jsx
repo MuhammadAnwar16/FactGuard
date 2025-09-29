@@ -97,7 +97,7 @@ const Sidebar = ({ isOpen, toggle, onNewChat }) => {
           </button>
         </div>
 
-        {/* User Info – Mobile */}
+                {/* User Info – Mobile */}
         <div className="lg:hidden px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
           <button
             onClick={() => setShowLogout(!showLogout)}
@@ -112,15 +112,44 @@ const Sidebar = ({ isOpen, toggle, onNewChat }) => {
             </div>
           </button>
 
-          {/* Logout dropdown */}
+          {/* Dropdown Menu */}
           {showLogout && (
-            <div className="mt-3 animate-fade-in-down">
+            <div className="mt-3 flex flex-col gap-2 animate-fade-in-down">
+              {/* Help Button */}
+              <button
+                onClick={() => {
+                  // open your help modal here
+                  setShowLogout(false);
+                  console.log("Help clicked");
+                }}
+                className="flex items-center gap-2 px-4 py-2 w-full rounded-md text-sm font-medium text-gray-300 
+                           hover:text-white hover:bg-white/5 transition"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-gray-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M8.228 9.172a4 4 0 117.544 0c0 1.657-1.343 3-3 3v1m0 4h.01"
+                  />
+                </svg>
+                Help
+              </button>
+
+              {/* Logout Button */}
               <button
                 onClick={() => {
                   logout();
                   toggle(); 
                 }}
-                className="flex items-center gap-2 px-4 py-2 w-full rounded-md bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm shadow hover:opacity-90 transition"
+                className="flex items-center gap-2 px-4 py-2 w-full rounded-md text-sm font-medium text-red-400 
+                           hover:text-white hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 transition"
               >
                 <LogOut size={16} />
                 Logout
@@ -128,6 +157,7 @@ const Sidebar = ({ isOpen, toggle, onNewChat }) => {
             </div>
           )}
         </div>
+
 
         {/* Desktop Static User Info (no dropdown) */}
         <div className="hidden lg:flex px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
