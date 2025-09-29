@@ -1,13 +1,12 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { User, ChevronLeft, ChevronRight, Search, LogOut  } from "lucide-react";
+import { User, ChevronLeft, ChevronRight, Search, LogOut } from "lucide-react";
 
-const Sidebar = ({ isOpen, toggle, onLogout }) => {
+const Sidebar = ({ isOpen, toggle, onLogout, onNewChat }) => {
   const [showLogout, setShowLogout] = useState(false);
-
   return (
     <>
-            {/* Mobile Background */}
+      {/* Mobile Background */}
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm lg:hidden"
@@ -17,7 +16,6 @@ const Sidebar = ({ isOpen, toggle, onLogout }) => {
           }}
         />
       )}
-
 
       {/* Sidebar */}
       <aside
@@ -44,7 +42,7 @@ const Sidebar = ({ isOpen, toggle, onLogout }) => {
 
           {/* Desktop Toggle Button */}
           <div className="hidden lg:flex justify-end mb-3 px-4">
-             <button
+            <button
               onClick={toggle}
               className="text-gray-400 hover:text-teal-400 transition"
               aria-label="Toggle Sidebar"
@@ -63,7 +61,10 @@ const Sidebar = ({ isOpen, toggle, onLogout }) => {
 
           {/* New Chat Button */}
           <button
-            onClick={() => console.log("Open New Chat")}
+            onClick={() => {
+              if (onNewChat) onNewChat();
+              if (isOpen) toggle(); // auto-close drawer on mobile
+            }}
             className="group flex items-center gap-3 w-full px-4 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-teal-400 hover:bg-[#333333] transition"
           >
             <svg
@@ -94,7 +95,7 @@ const Sidebar = ({ isOpen, toggle, onLogout }) => {
           </button>
         </div>
 
-         {/* User Info – Mobile */}
+        {/* User Info – Mobile */}
         <div className="lg:hidden px-4 py-3 border-t border-[#2a2a2a] bg-background text-sm text-gray-400">
           <button
             onClick={() => setShowLogout(!showLogout)}
@@ -109,11 +110,14 @@ const Sidebar = ({ isOpen, toggle, onLogout }) => {
             </div>
           </button>
 
-           {/* Logout dropdown */}
+          {/* Logout dropdown */}
           {showLogout && (
             <div className="mt-3 animate-fade-in-down">
               <button
-                onClick={onLogout}
+                onClick={() => {
+                  if (onLogout) onLogout();
+                  if (isOpen) toggle(); // close drawer after logout on mobile
+                }}
                 className="flex items-center gap-2 px-4 py-2 w-full rounded-md bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold text-sm shadow hover:opacity-90 transition"
               >
                 <LogOut size={16} />

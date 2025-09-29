@@ -86,22 +86,26 @@ const Analyze = () => {
 
   // Disable background scroll when sidebar is open (mobile)
   useEffect(() => {
-     document.body.style.overflow = "hidden";
-  return () => {
-    document.body.style.overflow = "";
-  };
-}, []);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
   const startNewAnalysis = () => {
     setInput("");
     setResult(null);
-    setError(null);
+    setError("");
     setUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
-
   return (
     <section className="h-screen w-full bg-background text-text flex">
       {/* Sidebar Drawer */}
-      <Sidebar isOpen={sidebarOpen} toggle={toggleSidebar} />
+      <Sidebar
+        isOpen={sidebarOpen}
+        toggle={toggleSidebar}
+        onNewChat={startNewAnalysis} // ✅ Pass function to Sidebar
+      />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-y-auto relative">
@@ -213,53 +217,52 @@ const Analyze = () => {
             )}
 
             <form
-  onSubmit={handleAnalyze}
-  className={`fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-40
+              onSubmit={handleAnalyze}
+              className={`fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-40
     ${sidebarOpen ? "hidden" : "flex"}
   `}
->
-  <label htmlFor="file-upload" className="cursor-pointer">
-    <Upload
-      size={20}
-      className="text-muted hover:text-white transition"
-      title="Upload File"
-    />
-  </label>
+            >
+              <label htmlFor="file-upload" className="cursor-pointer">
+                <Upload
+                  size={20}
+                  className="text-muted hover:text-white transition"
+                  title="Upload File"
+                />
+              </label>
 
-  <input
-    id="file-upload"
-    ref={fileInputRef}
-    type="file"
-    accept=".pdf,.txt,.doc,.docx"
-    onChange={handleFileUpload}
-    className="hidden"
-  />
+              <input
+                id="file-upload"
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,.txt,.doc,.docx"
+                onChange={handleFileUpload}
+                className="hidden"
+              />
 
-  <textarea
-    rows={1}
-    value={input}
-    onChange={(e) => setInput(e.target.value)}
-    placeholder="Enter headline or URL..."
-    className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
-    onInput={(e) => {
-      e.target.style.height = "auto";
-      e.target.style.height = `${e.target.scrollHeight}px`;
-    }}
-  />
+              <textarea
+                rows={1}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Enter headline or URL..."
+                className="flex-1 resize-none overflow-hidden bg-transparent text-text placeholder:text-muted text-sm focus:outline-none font-inter"
+                onInput={(e) => {
+                  e.target.style.height = "auto";
+                  e.target.style.height = `${e.target.scrollHeight}px`;
+                }}
+              />
 
-  <button
-    type="submit"
-    disabled={loading || uploading}
-    className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
-  >
-    {loading ? (
-      <Loader2 className="animate-spin" size={18} />
-    ) : (
-      <ArrowUp size={18} />
-    )}
-  </button>
-</form>
-
+              <button
+                type="submit"
+                disabled={loading || uploading}
+                className="bg-gradient-to-br from-primary to-secondary text-black p-2 rounded-full shadow hover:scale-105 transition flex items-center justify-center"
+              >
+                {loading ? (
+                  <Loader2 className="animate-spin" size={18} />
+                ) : (
+                  <ArrowUp size={18} />
+                )}
+              </button>
+            </form>
           </main>
 
           {/* ✅ DESKTOP VERSION */}
