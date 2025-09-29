@@ -1,16 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  ShieldCheck,
-  CheckCircle,
-  XCircle,
-} from "lucide-react";
+import {Eye,EyeOff,Mail,Lock,User,ShieldCheck,CheckCircle,XCircle,} from "lucide-react";
 
 const LoginPage = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -24,7 +15,7 @@ const LoginPage = () => {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [toast, setToast] = useState(null);
-  const [loading, setLoading] = useState(false); // ✅ new loading state
+  const [loading, setLoading] = useState(false); 
 
   const { login } = useAuth();
   const navigate = useNavigate();

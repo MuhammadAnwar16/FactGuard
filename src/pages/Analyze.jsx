@@ -214,7 +214,9 @@ const Analyze = () => {
 
             <form
   onSubmit={handleAnalyze}
-  className="fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-50"
+  className={`fixed bottom-[calc(env(safe-area-inset-bottom,1rem)+0.5rem)] left-4 right-4 mx-auto w-[calc(100%-2rem)] max-w-2xl bg-surface border border-border rounded-xl shadow-lg px-4 py-3 flex items-end gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-primary z-40
+    ${sidebarOpen ? "hidden" : "flex"}
+  `}
 >
   <label htmlFor="file-upload" className="cursor-pointer">
     <Upload
